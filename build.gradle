@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+// Redefine where Gradle should expect Java source files (*.java)
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
+
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+  compile files("/usr/java/jdk1.8.0_92/lib/tools.jar")
+  compile 'com.google.code.gson:gson:2.7'
+}
+
+// Redefine where .class files are written
+sourceSets.main.output.classesDir = file("classes")
+
+// Specify main class to be executed
+mainClassName = "org.protocoder.docgenerator.DocGenerator"
+
+defaultTasks 'compileJava', 'run'
+
+// Include dependent libraries in archive.
+mainClassName = "org.protocoder.documentation.DocGenerator"
+
+jar {
+  manifest {
+    attributes "Main-Class": "$mainClassName"
+  }
+
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}

@@ -1,0 +1,1 @@
+javadoc -docletpath "build/libs/Documentation.jar" -doclet org.protocoder.documentation.DocGenerator -sourcepath ../AndroidApp/protocoder_apprunner/src/main/java -subpackages "org.protocoderrunner.api" 
